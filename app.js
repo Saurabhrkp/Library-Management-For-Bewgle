@@ -3,12 +3,20 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const session = require('express-session');
+const passport = require('passport');
 const mongoose = require('mongoose');
+const MongoStore = require('connect-mongo')(session);
+const methodOverride = require('method-override');
+const expressLayouts = require('express-ejs-layouts');
+
+const app = express();
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 
-const app = express();
+// Passport Config
+require('./lib/passport')(passport);
 
 // MongoDB Config
 const mongoDB_URI = 'mongodb://localhost:27017/library';
@@ -30,13 +38,29 @@ const mongoDBOptions = {
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
+app.use(expressLayouts);
 app.set('view engine', 'ejs');
+
+// override with POST having ?_method=DELETE
+app.use(methodOverride('_method'));
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Express session
+app.use(
+  session({
+    secret: 'secretSession',
+    store: new MongoStore({ mongooseConnection: mongoose.connection }),
+  })
+);
+
+// Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
