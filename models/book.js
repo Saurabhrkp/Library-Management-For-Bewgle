@@ -12,6 +12,7 @@ const bookSchema = new Schema({
   author: { type: String, required: true },
   summary: { type: String, required: true },
   isbn: { type: String, default: URI() },
+  usersBorrowed: [{ type: Schema.ObjectId, ref: 'User' }],
   available: { type: Boolean, default: true },
 });
 
