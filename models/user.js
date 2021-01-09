@@ -4,7 +4,6 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
   email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
   address: { flat: String, street: String, pincode: String, state: String },
   username: { type: String, required: true, unique: true },
   borrowed: {
@@ -15,7 +14,7 @@ const userSchema = new Schema({
           ref: 'Book',
           required: true,
         },
-        dueDate: { type: Date, required: true },
+        returnDate: { type: Date, required: true },
       },
     ],
   },
@@ -30,11 +29,11 @@ userSchema.methods.borrowBook = function (book) {
   const updatedBorrowedBooks = [...this.borrowed.books];
 
   if (borrowedBookIndex >= 0) {
-    updatedBorrowedBooks[borrowedBookIndex].dueDate = date;
+    updatedBorrowedBooks[borrowedBookIndex].returnDate = date;
   } else {
     updatedBorrowedBooks.push({
       bookId: book._id,
-      dueDate: date,
+      returnDate: date,
     });
   }
   const updatedBorrowed = {
