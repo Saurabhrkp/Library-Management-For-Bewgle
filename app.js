@@ -3,11 +3,30 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const mongoose = require('mongoose');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 
 const app = express();
+
+// MongoDB Config
+const mongoDB_URI = 'mongodb://localhost:27017/library';
+const mongoDBOptions = {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+};
+
+(async () => {
+  // Connect to MongoDB
+  try {
+    await mongoose.connect(mongoDB_URI, mongoDBOptions);
+    console.log(`Connected to ${mongoDB_URI}`);
+    mongoose.Promise = global.Promise;
+  } catch (error) {
+    console.error(`Unable to connect MongoDB due to ${error.message}`);
+  }
+})();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -23,12 +42,12 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
-app.use(function (req, res, next) {
+app.use((req, res, next) => {
   next(createError(404));
 });
 
 // error handler
-app.use(function (err, req, res, next) {
+app.use((err, req, res, next) => {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
