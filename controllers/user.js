@@ -3,10 +3,10 @@ const Book = require('../models/book');
 const passport = require('passport');
 const bcrypt = require('bcryptjs');
 const { body, validationResult } = require('express-validator');
-const PAGE_PATH = 'auth';
+const PAGE_PATH = 'user';
 
 exports.get_signup = (req, res) => {
-  res.render('auth/signup', { PAGE_PATH, PAGE_TITLE: 'Create new account' });
+  res.render('user/signup', { PAGE_PATH, PAGE_TITLE: 'Create new account' });
 };
 
 exports.validateSignup = async (req, res, next) => {
@@ -54,7 +54,7 @@ exports.validateSignup = async (req, res, next) => {
   if (errors.length > 0) {
     const error = errors.map((error) => error.msg)[0];
     const { name, email, username, password, passwordConfirmation } = req.body;
-    return res.render('auth/signup', {
+    return res.render('user/signup', {
       PAGE_PATH,
       PAGE_TITLE: 'Create new account',
       error,
@@ -76,25 +76,25 @@ exports.signup = async (req, res) => {
   let hash = await bcrypt.hash(user.password, salt);
   user.password = hash;
   await user.save();
-  req.flash('success_msg', 'Registered and check your email for verification');
-  res.redirect('/auth/signin');
+  req.flash('success_msg', 'Please add address before borrowing books');
+  res.redirect('/user/signin');
 };
 
 exports.get_signin = (req, res) => {
-  res.render('auth/signin', { PAGE_PATH, PAGE_TITLE: 'Sign in' });
+  res.render('user/signin', { PAGE_PATH, PAGE_TITLE: 'Sign in' });
 };
 
 exports.signin = (req, res, next) => {
   passport.authenticate('local', (err, user, info) => {
     if (err) {
-      return res.render('auth/signin', {
+      return res.render('user/signin', {
         PAGE_PATH,
         PAGE_TITLE: 'Sign in',
         error: err.message,
       });
     }
     if (!user) {
-      return res.render('auth/signin', {
+      return res.render('user/signin', {
         PAGE_PATH,
         PAGE_TITLE: 'Sign in',
         error: info.message,
@@ -102,7 +102,7 @@ exports.signin = (req, res, next) => {
     }
     req.logIn(user, (err) => {
       if (err) {
-        return res.render('auth/signin', {
+        return res.render('user/signin', {
           PAGE_PATH,
           PAGE_TITLE: 'Sign in',
           error: err.message,
@@ -122,7 +122,7 @@ exports.signout = (req, res) => {
 };
 
 exports.getAuthUser = (req, res) => {
-  res.render('auth/profile', {
+  res.render('user/profile', {
     PAGE_PATH,
     PAGE_TITLE: `${req.profile.username}`,
     profile: req.profile,
@@ -134,12 +134,12 @@ exports.checkAuth = (req, res, next) => {
     return next();
   }
   req.flash('error_msg', 'You have to be registered and logged in');
-  res.redirect('/auth/signin');
+  res.redirect('/user/signin');
 };
 
-exports.getUserByUsername = async (req, res, next, username) => {
+exports.getUserByID = async (req, res, next, id) => {
   try {
-    req.profile = await User.findOne({ username: username });
+    req.profile = await User.findById(id);
     req.profile.borrowedBookList = await Book.find({
       usersBorrowed: { $in: [req.profile._id] },
     }).select('-usersBorrowed');
@@ -154,7 +154,7 @@ exports.updateUser = async (req, res) => {
   req.body.address = { flat, street, pincode, state };
   await User.findOneAndUpdate({ _id: req.user._id }, { $set: req.body });
   req.flash('success_msg', 'Your Account is updated');
-  res.redirect(`/auth/${req.user.username}`);
+  res.redirect(`/user/${req.user.username}`);
 };
 
 exports.deleteUser = async (req, res) => {
@@ -169,5 +169,5 @@ exports.deleteUser = async (req, res) => {
       ).exec(callback);
     },
   ]);
-  res.redirect('/auth/signout');
+  res.redirect('/user/signout');
 };
