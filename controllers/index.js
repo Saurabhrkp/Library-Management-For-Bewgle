@@ -30,7 +30,7 @@ exports.searchBook = async (req, res) => {
   res.redirect('/');
 };
 
-exports.sendBook = (req, res) => {
+exports.sendBookDetails = (req, res) => {
   res.render('book', {
     PAGE_PATH: 'index',
     PAGE_TITLE: req.book.title,
