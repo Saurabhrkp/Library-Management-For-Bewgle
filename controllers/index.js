@@ -1,15 +1,15 @@
 const Book = require('../models/book');
 const User = require('../models/user');
 
-exports.getBookByID = async (req, res, next, id) => {
+exports.getBookByID = async (req, res, next, bookId) => {
   try {
-    req.book = await Book.findById(id);
+    req.book = await Book.findById(bookId);
     if (req.book !== null) {
       return next();
     }
     req.flash(
       'error_msg',
-      `No Book with id: ${id}, may be because ID is incorrect or modified`
+      `No Book with id: ${bookId}, may be because ID is incorrect or modified`
     );
     res.redirect('/');
   } catch (error) {

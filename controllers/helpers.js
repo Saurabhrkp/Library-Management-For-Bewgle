@@ -74,14 +74,14 @@ const deleteCoverImageID = async (req, res, next) => {
 
 const sendFiles = async (req, res, next) => {
   try {
-    const files = await GFS.find({ id: req.params.id }).toArray();
+    const files = await GFS.find({ id: req.params.fileID }).toArray();
     if (!files[0] || files.length === 0) {
       return res
         .status(200)
         .json({ success: false, message: 'No files available' });
     }
     if (files[0].contentType.startsWith('image')) {
-      GFS.openDownloadStreamByName(req.params.coverImageID).pipe(res);
+      GFS.openDownloadStreamByName(req.params.fileID).pipe(res);
     } else {
       res.status(404).json({ err: 'Not a image' });
     }

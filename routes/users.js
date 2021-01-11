@@ -18,10 +18,10 @@ router
 // Logout
 router.get('/signout', userController.signout);
 
-router.param('id', userController.getUserByID);
+router.param('userId', userController.getUserByID);
 
 router
-  .route('/:id')
+  .route('/:userId')
   .get(userController.checkAuth, userController.getAuthUser)
   .put(userController.checkAuth, catchErrors(userController.updateUser))
   .delete(userController.checkAuth, catchErrors(userController.deleteUser));

@@ -6,10 +6,12 @@ const { catchErrors, sendFiles } = require('../controllers/helpers');
 
 router.get('/', catchErrors(indexController.getBooks));
 
-router.param('id', userController.getUserByID);
+router.param('userId', userController.getUserByID);
+
+router.param('bookId', indexController.getBookByID);
 
 router
-  .route('/borrow/:id')
+  .route('/borrow/:userId')
   .get(userController.checkAuth, catchErrors(indexController.getBorrowed))
   .post(userController.checkAuth, catchErrors(indexController.postBorrowed));
 
@@ -19,9 +21,7 @@ router.post(
   catchErrors(indexController.postReturnBorrowedBook)
 );
 
-router.get('/files/:id', sendFiles);
-
-router.param('id', indexController.getBookByID);
+router.get('/files/:fileID', sendFiles);
 
 router.post(
   '/search',
@@ -31,7 +31,7 @@ router.post(
 );
 
 router
-  .route('/:id')
+  .route('/:bookId')
   .get(userController.checkAuth, indexController.sendBookDetails);
 
 module.exports = router;

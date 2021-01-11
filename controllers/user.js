@@ -137,9 +137,9 @@ exports.checkAuth = (req, res, next) => {
   res.redirect('/user/signin');
 };
 
-exports.getUserByID = async (req, res, next, id) => {
+exports.getUserByID = async (req, res, next, userId) => {
   try {
-    req.profile = await User.findById(id);
+    req.profile = await User.findById(userId);
     req.profile.borrowedBookList = await Book.find({
       usersBorrowed: { $in: [req.profile._id] },
     }).select('-usersBorrowed');
