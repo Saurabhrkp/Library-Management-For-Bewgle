@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
   <a class="navbar-brand" href="/">Library Management</a>
   <button
     class="navbar-toggler"
@@ -25,7 +25,7 @@
       <li class="nav-item-float-right">
         <a
           href="/borrowed/<%=user._id%>"
-          class="nav-link<%= typeof PAGE_PATH != 'undefined' ? ( PAGE_PATH === 'cart' ? ' active' : '') : ''%>"
+          class="nav-link<%= typeof PAGE_PATH != 'undefined' ? ( PAGE_PATH === 'borrow' ? ' active' : '') : ''%>"
           >Borrowed</a
         >
       </li>
@@ -47,7 +47,10 @@
         name="text"
         placeholder="Search"
       />
-      <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">
+      <button
+        class="rounded-0 btn btn-outline-secondary my-2 my-sm-0"
+        type="submit"
+      >
         Search
       </button>
     </form>
