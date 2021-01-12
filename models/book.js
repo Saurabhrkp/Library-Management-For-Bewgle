@@ -3,7 +3,7 @@ const shortId = require('crypto-random-string');
 const Schema = mongoose.Schema;
 
 function URI() {
-  return (random = shortId({ length: 12 }));
+  return shortId(12);
 }
 
 const bookSchema = new Schema({
