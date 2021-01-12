@@ -39,7 +39,7 @@ exports.sendBookForm = (req, res) => {
 
 exports.getUsers = async (req, res) => {
   const users = await User.find();
-  res.render('panel/lists', {
+  res.render('panel/list', {
     PAGE_PATH,
     PAGE_TITLE: 'List of users',
     users,
@@ -48,7 +48,7 @@ exports.getUsers = async (req, res) => {
 
 exports.getBooks = async (req, res) => {
   const books = await Book.find().populate('usersBorrowed');
-  res.render('panel/lists', {
+  res.render('panel/list', {
     PAGE_PATH,
     PAGE_TITLE: 'List of books',
     books,
@@ -62,12 +62,12 @@ exports.updateBook = async (req, res) => {
     { new: true, runValidators: true }
   );
   req.flash('success_msg', `${req.book.title} updated`);
-  res.redirect(`${req.book.slug}`);
+  res.redirect(`/${req.book._id}`);
 };
 
 exports.deleteBook = async (req, res) => {
   const { _id } = req.book;
   await Book.findOneAndDelete({ _id });
   req.flash('success_msg', `Deleted ${req.book.tilte}`);
-  res.redirect('/panel/panel');
+  res.redirect('/panel/index');
 };

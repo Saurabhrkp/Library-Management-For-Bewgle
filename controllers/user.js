@@ -68,7 +68,7 @@ exports.signup = async (req, res) => {
   let hash = await bcrypt.hash(user.password, salt);
   user.password = hash;
   await user.save();
-  req.flash('success_msg', 'Please add address before borrowing books');
+  req.flash('success_msg', 'Account has been created');
   res.redirect('/user/signin');
 };
 
