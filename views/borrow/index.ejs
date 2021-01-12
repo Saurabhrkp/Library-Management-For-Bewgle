@@ -1,0 +1,38 @@
+<%- include('../components/navbar') %>
+<div class="text-center"><%- include('../components/messages') %></div>
+<div class="container card bg-light shadow my-4">
+  <% if (books.length > 0) {%> <% books.forEach(book => { %>
+  <div class="row justify-content-center bg-light pt-3">
+    <div class="m-0 col-sm-5 col-md-4 col-lg-3 text-center">
+      <img
+        src="/files/<%= book.bookId.coverImageID %>"
+        style="width: 20rem"
+        class="img-fluid mt-3"
+        alt="<%= book.bookId.coverImageID %>"
+      />
+    </div>
+    <div class="m-0 col-sm-10 col-md-8 col-lg-8 mt-3">
+      <a href="/<%= book.bookId._id%>"><h3><%= book.bookId.title %></h3></a>
+      <h5><%= book.bookId.description %></h5>
+      <p class="mb-0 d-inline-block">By <%= book.bookId.author %></p>
+      <h4><%= book.bookId.isbn %> ₹</h4>
+      <h4>Quantity: <%= book.quantity %></h4>
+      <form action="/borrowed/<%= book.bookId._id %>" method="POST">
+        <input type="hidden" value="<%= book.bookId._id %>" name="bookId" />
+        <button class="btn btn-outline-danger" type="submit">Delete</button>
+      </form>
+    </div>
+  </div>
+  <hr />
+  <% }) %>
+  <div class="p-2 text-center col">
+    <form action="/return-both" method="POST">
+      <button class="btn btn-outline-primary btn-lg" type="submit">
+        Return Both Book
+      </button>
+    </form>
+  </div>
+  <% } else { %>
+  <h1 class="py-5" style="min-height: 11rem">No Books borrowed!</h1>
+  <% } %>
+</div>

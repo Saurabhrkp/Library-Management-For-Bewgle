@@ -1,11 +1,60 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-  </body>
-</html>
+<%- include('./components/navbar') %>
+<div class="text-center"><%- include('./components/messages') %></div>
+<div class="row justify-content-center mr-0 ml-2">
+  <% books.forEach(book => { %>
+  <div
+    class="card text-white bg-dark m-3 p-0 shadow-lg col-sm-10 col-md-5 col-lg-4"
+  >
+    <div class="card-body">
+      <p class="card-title">
+        <%= book.title %>
+        <span class="text-info">ISBN: <%= book.isbn %></span>
+      </p>
+      <h6 class="card-subtitle text-muted"><%= book.description %></h6>
+      <h6 class="card-subtitle mt-2">
+        <span class="text-info"
+          ><%= book.available ? 'Available':'Unavailable' %> ₹</span
+        >
+      </h6>
+    </div>
+    <div class="card-body py-0">
+      <a href="/<%= book._id %>"
+        ><img
+          class="img-fluid col p-0"
+          src="/files/<%= book.coverImageID %>"
+          alt="<%= book.coverImageID %>"
+      /></a>
+    </div>
+    <div class="card-body py-2">
+      <span class="text-white"><%= book.author %></span>
+    </div>
+    <div class="card-footer">
+      <%- include('./components/borrow.ejs', {user, book}) %>
+    </div>
+  </div>
+  <% }) %>
+</div>
+<div class="row justify-content-center mr-0">
+  <ul class="pagination">
+    <li class="page-item <% if(currentPage <= 1) { %> disabled <% } %>">
+      <a
+        class="page-link"
+        href="?page=<%= currentPage <= 1 ? 1 : currentPage - 1 %>"
+        >&laquo;</a
+      >
+    </li>
+    <% for (let i = 1 ; i <= totalPages; i++) {%>
+    <li class="page-item<% if(currentPage == i) { %> active <% } %>">
+      <a class="page-link" href="?page=<%= i %>"><%= i %></a>
+    </li>
+    <% }%>
+    <li class="page-item<% if(currentPage == totalPages) { %> disabled <% } %>">
+      <a
+        class="page-link"
+        href="?page=<%= currentPage > totalPages - 1 ? totalPages : 1 + currentPage %>"
+        >&raquo;</a
+      >
+    </li>
+  </ul>
+</div>
+<%-include('./components/footer') %>
