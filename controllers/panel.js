@@ -47,7 +47,7 @@ exports.getUsers = async (req, res) => {
 };
 
 exports.getBooks = async (req, res) => {
-  const books = await Book.find();
+  const books = await Book.find().populate('usersBorrowed');
   res.render('panel/lists', {
     PAGE_PATH,
     PAGE_TITLE: 'List of books',
