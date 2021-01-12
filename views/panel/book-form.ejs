@@ -1,4 +1,3 @@
-<script src="https://cdn.ckeditor.com/4.11.4/standard/ckeditor.js"></script>
 <%- include('../components/navbar') %>
 <div class="text-center"><%- include('../components/messages') %></div>
 <div class="container card bg-light shadow my-4">
@@ -39,11 +38,16 @@
       </div>
       <div class="row">
         <div class="form-group col">
-          <label for="isbn">Book ISBN</label><input type="text" name="isbn"
-          class="form-control" id="isbn" placeholder="Enter Book ISBN here"
-          value="<%= typeof book!= 'undefined' ? (typeof book.isbn !=
-          'undefined' ? book.isbn : '') : ''%>" <%= typeof book!= 'undefined' ?
-          '' : 'required' %> />
+          <label for="isbn">Book ISBN</label
+          ><input
+            type="text"
+            name="isbn"
+            class="form-control"
+            id="isbn"
+            placeholder="Book ISBN is Automatically generated"
+            value="<%= typeof book!= 'undefined' ? (typeof book.isbn !=
+          'undefined' ? book.isbn : '') : ''%>"
+          />
         </div>
         <div class="form-group col">
           <label for="author">Author</label>
@@ -54,24 +58,24 @@
         </div>
       </div>
       <div class="form-group">
-        <label for="coverImageID">Cover Image</label>
+        <label for="coverImage">Cover Image</label>
         <div class="input-group mb-3">
           <div class="custom-file">
-            <input id="coverImageID" type="file" accept="image/*"
-            name="coverImageID" class="custom-file-input" <%= typeof book!=
+            <input id="coverImage" type="file" accept="image/*"
+            name="coverImage" class="custom-file-input" <%= typeof book!=
             'undefined' ? '' : 'required' %> />
-            <label class="custom-file-label" for="coverImageID"
+            <label class="custom-file-label" for="coverImage"
               >Choose Cover Image</label
             >
           </div>
         </div>
-        <div class="row justify-content-center" id="coverImageIDPreview">
+        <div class="row justify-content-center" id="coverImagePreview">
           <% if (typeof book !='undefined') { %>
           <div class="col-sm-5 col-md-4 col-lg-3 mb-3">
             <img
               class="img-fluid col p-0"
-              src="/files/<%= book.coverImageID %>"
-              alt="<%= book.coverImageID %>"
+              src="/files/<%= book.coverImage %>"
+              alt="<%= book.coverImage %>"
             />
           </div>
           <% } %>
@@ -94,6 +98,3 @@
 </div>
 
 <%-include('../components/footer') %>
-<script>
-  CKEDITOR.replace('summary');
-</script>
