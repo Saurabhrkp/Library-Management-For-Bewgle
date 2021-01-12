@@ -23,6 +23,11 @@
         <div class="mb-2 float-left">
           <h5 class="d-inline-block"><%= book.author %></h5>
         </div>
+        <div class="mb-2 float-left">
+          <h5 class="d-inline-block">
+            <%= book.available ? 'Available':'Issued' %>
+          </h5>
+        </div>
         <div class="container">
           <%- include('./components/borrow', { user, book}) %>
         </div>

@@ -13,7 +13,7 @@
       <h6 class="card-subtitle text-muted"><%= book.description %></h6>
       <h6 class="card-subtitle mt-2">
         <span class="text-info"
-          ><%= book.available ? 'Available':'Unavailable' %> ₹</span
+          ><%= book.available ? 'Available':'Issued' %> ₹</span
         >
       </h6>
     </div>
@@ -34,6 +34,7 @@
   </div>
   <% }) %>
 </div>
+<% if(currentPage !== undefined){%>
 <div class="row justify-content-center mr-0">
   <ul class="pagination">
     <li class="page-item <% if(currentPage <= 1) { %> disabled <% } %>">
@@ -57,4 +58,4 @@
     </li>
   </ul>
 </div>
-<%-include('./components/footer') %>
+<% }%> <%-include('./components/footer') %>
