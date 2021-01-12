@@ -41,10 +41,18 @@ exports.sendBookDetails = (req, res) => {
 
 exports.getBooks = async (req, res) => {
   const books = await Book.find({});
+  let currentPage = req.query.page || 1,
+    booksPerPage = 10,
+    currentBooks = [];
+  const indexOfLastBook = currentPage * booksPerPage;
+  const indexOfFirstBook = indexOfLastBook - booksPerPage;
+  currentBooks = books.slice(indexOfFirstBook, indexOfLastBook);
   res.render('index', {
     PAGE_TITLE: 'All Books',
     PAGE_PATH: 'index',
-    books,
+    books: currentBooks,
+    totalPages: books.length,
+    currentPage,
   });
 };
 
