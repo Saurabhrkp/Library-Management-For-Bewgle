@@ -3,7 +3,7 @@ const shortId = require('crypto-random-string');
 const Schema = mongoose.Schema;
 
 function URI() {
-  return shortId(12);
+  return (random = shortId(12));
 }
 
 const bookSchema = new Schema({
@@ -15,6 +15,7 @@ const bookSchema = new Schema({
   usersBorrowed: [{ type: Schema.ObjectId, ref: 'User' }],
   available: { type: Boolean, default: true },
   coverImage: { type: String, required: true },
+  coverImageID: { type: String, required: true },
 });
 
 module.exports = mongoose.model('Book', bookSchema);

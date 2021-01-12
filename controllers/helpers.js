@@ -50,24 +50,24 @@ const saveFile = async (req, res, next) => {
     return next();
   }
   if (req.files['coverImage']) {
-    const { filename } = req.files['coverImage'][0];
+    const { filename, _id } = req.files['coverImage'][0];
     req.body.coverImage = filename;
+    req.body.coverImageID = _id;
   }
   return next();
 };
 
-const deleteFileFromBucket = async (coverImage) => {
+const deleteFileFromBucket = async (id) => {
   try {
-    return await GFS.delete(new mongoose.Types.ObjectId(coverImage));
+    return await GFS.delete(new mongoose.Types.ObjectId(id));
   } catch (error) {
     return Promise.reject(error);
   }
 };
 
 const deleteCoverImage = async (req, res, next) => {
-  const { coverImage } = req.book;
-  if (req.body.coverImage !== undefined || req.url.includes('DELETE')) {
-    await deleteFileFromBucket(coverImage);
+  if (req.book.coverImageID !== undefined || req.url.includes('DELETE')) {
+    await deleteFileFromBucket(req.book.coverImageID);
   }
   return next();
 };
@@ -81,7 +81,7 @@ const sendFiles = async (req, res, next) => {
         .json({ success: false, message: 'No files available' });
     }
     if (files[0].contentType.startsWith('image')) {
-      GFS.openDownloadStreamByName(req.params.fileID).pipe(res);
+      GFS.openDownloadStreamByName(req.params.filename).pipe(res);
     } else {
       res.status(404).json({ err: 'Not a image' });
     }
