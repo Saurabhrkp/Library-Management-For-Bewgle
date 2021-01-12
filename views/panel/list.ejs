@@ -1,0 +1,6 @@
+<%- include('../components/navbar') %>
+<div class="container-fluid justify-content-center align-content-center">
+  <% if( typeof users !== 'undefined') { %> <%- include('./list-users') %> <% }
+  else { %> <%- include('./list-books') %> <% } %>
+</div>
+<%- include('../components/footer') %>

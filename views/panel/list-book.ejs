@@ -1,0 +1,45 @@
+<title>(<%=books.length%>) List of Posts</title>
+<div class="table-responsive py-5 mb-5">
+  <table class="table table-hover">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Thumbnail</th>
+        <th scope="col">Title</th>
+        <th scope="col">Last Borrowed By</th>
+        <th scope="col">Available</th>
+        <th scope="col">Delete</th>
+        <th scope="col">Update</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for( let i = 0; i < books.length; i++ ) { const book = books[i] %>
+      <tr>
+        <th scope="row"><%=i%></th>
+        <td style="width: 20rem; height: 2rem">
+          <img
+            class="d-block w-100"
+            src="/files/<%= book.coverImageID %>"
+            alt="<%= book.coverImageID %>"
+          />
+        </td>
+        <td><a href="/<%= book._id%>"><%= book.title %></a></td>
+        <td><%= book.usersBorrowed[book.usersBorrowed.length -1 ] %></td>
+        <td><%= book.available ? 'Available':'Issued' %></td>
+        <td>
+          <%- include('../components/delete-modal', {pre:
+          'panel',path:`${book._id}`}) %>
+        </td>
+        <td>
+          <a
+            type="button"
+            href="/panel/<%= book._id%>"
+            class="btn btn-outline-warning"
+            >Edit</a
+          >
+        </td>
+      </tr>
+      <% } %>
+    </tbody>
+  </table>
+</div>
