@@ -11,14 +11,23 @@ router.param('userId', userController.getUserByID);
 router.param('bookId', indexController.getBookByID);
 
 router
-  .route('/borrow/:userId')
-  .get(userController.checkAuth, catchErrors(indexController.getBorrowed))
+  .route('/borrowed/:userId')
+  .get(userController.checkAuth, catchErrors(indexController.getBorrowed));
+
+router
+  .route('/borrow')
   .post(userController.checkAuth, catchErrors(indexController.postBorrowed));
 
 router.post(
-  '/borrow-delete-item',
+  '/return/:bookId',
   userController.checkAuth,
   catchErrors(indexController.postReturnBorrowedBook)
+);
+
+router.post(
+  '/return-both',
+  userController.checkAuth,
+  catchErrors(indexController.postReturnBothBorrowedBook)
 );
 
 router.get('/files/:fileID', sendFiles);
