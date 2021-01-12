@@ -14,7 +14,7 @@ const bookSchema = new Schema({
   isbn: { type: String, default: URI() },
   usersBorrowed: [{ type: Schema.ObjectId, ref: 'User' }],
   available: { type: Boolean, default: true },
-  coverImageID: { type: String, required: true },
+  coverImage: { type: String, required: true },
 });
 
 module.exports = mongoose.model('Book', bookSchema);

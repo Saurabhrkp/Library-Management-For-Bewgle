@@ -30,7 +30,7 @@ router.post(
   catchErrors(indexController.postReturnBothBorrowedBook)
 );
 
-router.get('/files/:fileID', sendFiles);
+router.get('/files/:filename', sendFiles);
 
 router.post(
   '/search',

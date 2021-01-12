@@ -23,7 +23,7 @@ const storage = new GridFsStorage({
   file: (req, file) => {
     return {
       bucketName: process.env.BUCKET_NAME,
-      filename: `${Date.now()}-${path.extname(file.originalname)}`,
+      filename: `${Date.now()}${path.extname(file.originalname)}`,
     };
   },
 });
@@ -50,31 +50,31 @@ const saveFile = async (req, res, next) => {
     return next();
   }
   if (req.files['coverImage']) {
-    const { id } = req.files['coverImage'][0];
-    req.body.coverImageID = id;
+    const { filename } = req.files['coverImage'][0];
+    req.body.coverImage = filename;
   }
   return next();
 };
 
-const deleteFileFromBucket = async (coverImageID) => {
+const deleteFileFromBucket = async (coverImage) => {
   try {
-    return await GFS.delete(new mongoose.Types.ObjectId(coverImageID));
+    return await GFS.delete(new mongoose.Types.ObjectId(coverImage));
   } catch (error) {
     return Promise.reject(error);
   }
 };
 
-const deleteCoverImageID = async (req, res, next) => {
-  const { coverImageID } = req.book;
-  if (req.body.coverImageID !== undefined || req.url.includes('DELETE')) {
-    await deleteFileFromBucket(coverImageID);
+const deleteCoverImage = async (req, res, next) => {
+  const { coverImage } = req.book;
+  if (req.body.coverImage !== undefined || req.url.includes('DELETE')) {
+    await deleteFileFromBucket(coverImage);
   }
   return next();
 };
 
 const sendFiles = async (req, res, next) => {
   try {
-    const files = await GFS.find({ id: req.params.fileID }).toArray();
+    const files = await GFS.find({ filename: req.params.filename }).toArray();
     if (!files[0] || files.length === 0) {
       return res
         .status(200)
@@ -94,6 +94,6 @@ module.exports = {
   catchErrors,
   upload,
   saveFile,
-  deleteCoverImageID,
+  deleteCoverImage,
   sendFiles,
 };

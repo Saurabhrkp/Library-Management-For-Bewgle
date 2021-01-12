@@ -7,7 +7,7 @@ const {
   catchErrors,
   upload,
   saveFile,
-  deleteCoverImageID,
+  deleteCoverImage,
 } = require('../controllers/helpers');
 
 router.param('bookId', indexController.getBookByID);
@@ -32,14 +32,14 @@ router
   .route('/:bookId')
   .delete(
     userController.checkAuth,
-    catchErrors(deleteCoverImageID),
+    catchErrors(deleteCoverImage),
     catchErrors(panelController.deleteBook)
   )
   .put(
     userController.checkAuth,
     upload.fields([{ name: 'coverImage', maxCount: 1 }]),
     catchErrors(saveFile),
-    catchErrors(deleteCoverImageID),
+    catchErrors(deleteCoverImage),
     catchErrors(panelController.updateBook)
   )
   .get(userController.checkAuth, panelController.sendBookForm);

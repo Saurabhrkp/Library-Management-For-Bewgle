@@ -20,11 +20,11 @@ $(document).ready(function () {
   });
 });
 
-$('#coverImageID').change(function (e) {
+$('#coverImage').change(function (e) {
   if (e.target.files.length) {
     if (typeof FileReader != 'undefined') {
-      let coverImageIDPreview = $('#coverImageIDPreview');
-      coverImageIDPreview.html('');
+      let coverImagePreview = $('#coverImagePreview');
+      coverImagePreview.html('');
       $(this).next('.custom-file-label').html(e.target.files[0].name);
       let reader = new FileReader();
       let file = e.target.files[0];
@@ -33,7 +33,7 @@ $('#coverImageID').change(function (e) {
         let img = $("<img class='d-block w-100'/>");
         img.attr('src', e.target.result);
         col.append(img);
-        coverImageIDPreview.append(col);
+        coverImagePreview.append(col);
       };
       reader.readAsDataURL(file);
     } else {
