@@ -9,6 +9,8 @@ const mongoose = require('mongoose');
 const MongoStore = require('connect-mongo')(session);
 const methodOverride = require('method-override');
 const expressLayouts = require('express-ejs-layouts');
+const flash = require('connect-flash');
+require('dotenv').config();
 
 const app = express();
 
@@ -20,17 +22,20 @@ const usersRouter = require('./routes/users');
 require('./lib/passport')(passport);
 
 // MongoDB Config
-const mongoDB_URI = 'mongodb://localhost:27017/library';
+const mongoDB_URL =
+  process.env.MONGODB_URI || 'mongodb://localhost:27017/library';
+
 const mongoDBOptions = {
-  useNewUrlParser: true,
   useUnifiedTopology: true,
+  useNewUrlParser: true,
+  useCreateIndex: true,
 };
 
 (async () => {
   // Connect to MongoDB
   try {
-    await mongoose.connect(mongoDB_URI, mongoDBOptions);
-    console.log(`Connected to ${mongoDB_URI}`);
+    await mongoose.connect(mongoDB_URL, mongoDBOptions);
+    console.log(`Connected to ${mongoDB_URL}`);
     mongoose.Promise = global.Promise;
   } catch (error) {
     console.error(`Unable to connect MongoDB due to ${error.message}`);
@@ -55,6 +60,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(
   session({
     secret: 'secretSession',
+    resave: false,
+    saveUninitialized: false,
     store: new MongoStore({ mongooseConnection: mongoose.connection }),
   })
 );
@@ -62,6 +69,18 @@ app.use(
 // Passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
+
+// Connect flash
+app.use(flash());
+
+// Global variables
+app.use((req, res, next) => {
+  res.locals.user = req.user || null;
+  res.locals.success_msg = req.flash('success_msg');
+  res.locals.error_msg = req.flash('error_msg');
+  res.locals.error = req.flash('error');
+  next();
+});
 
 app.use('/', indexRouter);
 app.use('/panel', panelRouter);
