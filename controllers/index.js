@@ -1,5 +1,6 @@
 const Book = require('../models/book');
 const User = require('../models/user');
+const async = require('async');
 
 exports.getBookByID = async (req, res, next, bookId) => {
   try {

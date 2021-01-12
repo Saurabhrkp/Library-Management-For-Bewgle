@@ -1,5 +1,6 @@
 const User = require('../models/user');
 const Book = require('../models/book');
+const async = require('async');
 const passport = require('passport');
 const bcrypt = require('bcryptjs');
 const { body, validationResult } = require('express-validator');

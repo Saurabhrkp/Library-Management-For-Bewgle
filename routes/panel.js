@@ -53,7 +53,7 @@ router.get(
 router.get(
   '/all/books',
   userController.checkAuth,
-  catchErrors(panelController.getProducts)
+  catchErrors(panelController.getBooks)
 );
 
 module.exports = router;
