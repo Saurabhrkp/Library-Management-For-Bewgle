@@ -13,11 +13,12 @@
       <% for( let i = 0; i < users.length; i++ ) { const user = users[i] %>
       <tr>
         <th scope="row"><%=i%></th>
-        <td><a href="/user/<%= user.username%>">@<%= user.username %></a></td>
+        <td><a href="/user/<%= user.username%>"><%= user.username %></a></td>
         <td><a href="mailto:<%= user.email %>"><%= user.email %></a></td>
         <td>
-          <%- include('../components/delete-modal', {pre:
-          'user',path:`${user._id}`}) %>
+          <%- include('../components/delete-modal', { pre : 'user' , path :
+          user._id , title : user.username , tag:
+          `${user.username.replace(/\s+/g, '')}` }) %>
         </td>
       </tr>
       <% } %>

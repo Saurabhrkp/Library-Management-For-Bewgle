@@ -27,14 +27,15 @@
         <td><%= book.usersBorrowed[book.usersBorrowed.length -1 ] %></td>
         <td><%= book.available ? 'Available':'Issued' %></td>
         <td>
-          <%- include('../components/delete-modal', {pre:
-          'panel',path:`${book._id}`}) %>
+          <%- include('../components/delete-modal', { pre : 'panel' , title :
+          book.title , path : book._id , tag : `${book.title.replace(/\s+/g,
+          '')}` }) %>
         </td>
         <td>
           <a
             type="button"
             href="/panel/<%= book._id%>"
-            class="btn btn-outline-warning"
+            class="btn rounded-0 btn-outline-warning"
             >Edit</a
           >
         </td>

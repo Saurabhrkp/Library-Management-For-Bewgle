@@ -1,16 +1,16 @@
 <div>
   <button
     type="button"
-    class="btn btn-outline-danger"
+    class="btn rounded-0 btn-outline-danger"
     data-toggle="modal"
-    data-target="#<%= path %>"
+    data-target="#<%= tag %>"
   >
     Delete
   </button>
 </div>
 <div
   class="modal fade"
-  id="<%= path %>"
+  id="<%= tag %>"
   tabindex="-1"
   role="dialog"
   aria-labelledby="modalTitle"
@@ -20,7 +20,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="modalTitle">
-          Confirm Delete of <%= path %>
+          Confirm Delete of <%= title %>
         </h5>
         <button
           type="button"
@@ -34,7 +34,7 @@
       <div class="modal-footer">
         <button
           type="button"
-          class="btn btn-outline-secondary"
+          class="btn rounded-0 btn-outline-secondary"
           data-dismiss="modal"
         >
           Not now
@@ -44,7 +44,9 @@
           action="/<%= pre %>/<%= path %>?_method=DELETE"
           method="POST"
         >
-          <button type="submit" class="btn btn-outline-danger">Yes</button>
+          <button type="submit" class="btn rounded-0 btn-outline-danger">
+            Yes
+          </button>
         </form>
       </div>
     </div>
