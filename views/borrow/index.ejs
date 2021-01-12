@@ -19,7 +19,9 @@
       <h4>Quantity: <%= book.quantity %></h4>
       <form action="/borrowed/<%= book.bookId._id %>" method="POST">
         <input type="hidden" value="<%= book.bookId._id %>" name="bookId" />
-        <button class="btn btn-outline-danger" type="submit">Delete</button>
+        <button class="rounded-0 btn btn-outline-danger" type="submit">
+          Delete
+        </button>
       </form>
     </div>
   </div>
@@ -27,7 +29,7 @@
   <% }) %>
   <div class="p-2 text-center col">
     <form action="/return-both" method="POST">
-      <button class="btn btn-outline-primary btn-lg" type="submit">
+      <button class="rounded-0 btn btn-outline-primary btn-lg" type="submit">
         Return Both Book
       </button>
     </form>

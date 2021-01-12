@@ -1,11 +1,16 @@
 <%if (user != null){%>
 <form action="/borrow/<%= book._id %> " method="post">
   <input type="hidden" name="bookId" value="<%= book._id %>" />
-  <button class="btn btn-block btn-lg btn-outline-primary" type="submit">
+  <button
+    class="rounded-0 btn btn-block btn-lg btn-outline-primary"
+    type="submit"
+  >
     Borrow Book
   </button>
 </form>
 <%}else{%>
-<a class="btn btn-block btn-lg btn-outline-primary" href="/user/signin"
+<a
+  class="btn rounded-0 btn-block btn-lg btn-outline-primary"
+  href="/user/signin"
   >Sign in to borrow</a
 ><%}%>
