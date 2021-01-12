@@ -13,6 +13,7 @@ const expressLayouts = require('express-ejs-layouts');
 const app = express();
 
 const indexRouter = require('./routes/index');
+const panelRouter = require('./routes/panel');
 const usersRouter = require('./routes/users');
 
 // Passport Config
@@ -63,7 +64,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/panel', panelRouter);
+app.use('/user', usersRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

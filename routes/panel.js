@@ -13,7 +13,7 @@ const {
 router.param('bookId', indexController.getBookByID);
 
 router.get(
-  '/panel',
+  '/index',
   userController.checkAuth,
   catchErrors(panelController.panel)
 );

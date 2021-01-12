@@ -69,14 +69,14 @@ exports.postBorrowed = async (req, res) => {
     $push: { usersBorrowed: req.user.id },
   });
   req.user.borrowBook(bookId);
-  res.redirect(`/borrow/${req.user.id}`);
+  res.redirect(`/borrowed/${req.user.id}`);
 };
 
 exports.postReturnBorrowedBook = async (req, res) => {
   const bookId = req.body.bookId;
   await Book.findByIdAndUpdate(bookId, { available: true });
   await req.user.returnBorrowedBook(bookId);
-  res.redirect(`/borrow/${req.user.id}`);
+  res.redirect(`/borrowed/${req.user.id}`);
 };
 
 exports.postReturnBothBorrowedBook = async (req, res) => {
@@ -85,5 +85,5 @@ exports.postReturnBothBorrowedBook = async (req, res) => {
     Book.findByIdAndUpdate(bookId, { available: true }).exec(callback);
   });
   await req.user.returnBothBorrowedBook(bookId);
-  res.redirect(`/borrow/${req.user.id}`);
+  res.redirect(`/borrowed/${req.user.id}`);
 };
