@@ -1,0 +1,37 @@
+<%- include('./components/navbar') %>
+<meta name="title" content="<%= book.title %>" />
+<meta name="description" content="<%= book.description %>" />
+<div class="row justify-content-center mx-auto mt-3">
+  <div class="col-sm-12 col-md-11 col-lg-10">
+    <div class="text-center"><%- include('./components/messages') %></div>
+    <div class="card mb-3">
+      <div class="row justify-content-center">
+        <div class="col-sm-10 col-md-5 m-3 p-0">
+          <img
+            src="/files/<%= book.coverImageID %>"
+            class="d-block w-100"
+            alt="<%= book.coverImageID %>"
+          />
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="card-title" style="font-size: x-large; font-weight: bolder">
+          <%= book.title %> | Book ISBN
+          <span class="text-info"><%= book.isbn %></span>
+        </p>
+        <p class="card-subtitle mb-1"><%= book.description %></p>
+        <div class="mb-2 float-left">
+          <h5 class="d-inline-block"><%= book.author %></h5>
+        </div>
+        <div class="container">
+          <%- include('./components/borrow', { user, book}) %>
+        </div>
+
+        <br />
+        <hr class="mt-0" />
+        <div class="p-2"><%- book.summary %></div>
+      </div>
+    </div>
+  </div>
+</div>
+<%-include('./components/footer') %>

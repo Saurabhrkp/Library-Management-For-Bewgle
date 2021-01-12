@@ -13,17 +13,7 @@ exports.validateSignup = async (req, res, next) => {
   await body('username')
     .trim()
     .isLength({ min: 6, max: 16 })
-    .withMessage('Username has to be longer than 6.')
-    .isAlphanumeric()
-    .withMessage('Username has non-alphanumeric characters.')
-    .custom(async (value) => {
-      const user = await User.findOne({ username: value });
-      if (user) {
-        throw new Error('Username already in use');
-      }
-      return true;
-    })
-    .run(req);
+    .withMessage('Username has to be longer than 6.');
   await body('email')
     .trim()
     .isEmail()
@@ -50,10 +40,12 @@ exports.validateSignup = async (req, res, next) => {
       return true;
     })
     .run(req);
+  await body('flat').trim().notEmpty().withMessage('Fill complete address');
+  await body('street').trim().notEmpty().withMessage('Fill complete address');
   const errors = validationResult(req).array();
   if (errors.length > 0) {
     const error = errors.map((error) => error.msg)[0];
-    const { name, email, username, password, passwordConfirmation } = req.body;
+    const { name, email, username, flat, street } = req.body;
     return res.render('user/signup', {
       PAGE_PATH,
       PAGE_TITLE: 'Create new account',
@@ -61,16 +53,16 @@ exports.validateSignup = async (req, res, next) => {
       name,
       username,
       email,
-      password,
-      passwordConfirmation,
+      flat,
+      street,
     });
   }
   next();
 };
 
 exports.signup = async (req, res) => {
-  const { email, password, username, flat, street, pincode, state } = req.body;
-  const address = { flat, street, pincode, state };
+  const { email, password, username, flat, street } = req.body;
+  const address = { flat, street };
   const user = await new User({ email, username, password, address });
   let salt = await bcrypt.genSalt(10);
   let hash = await bcrypt.hash(user.password, salt);
