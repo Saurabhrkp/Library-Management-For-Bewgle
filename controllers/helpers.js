@@ -50,9 +50,9 @@ const saveFile = async (req, res, next) => {
     return next();
   }
   if (req.files['coverImage']) {
-    const { filename, _id } = req.files['coverImage'][0];
+    const { filename, id } = req.files['coverImage'][0];
     req.body.coverImage = filename;
-    req.body.coverImageID = _id;
+    req.body.coverImageID = id;
   }
   return next();
 };
@@ -66,7 +66,11 @@ const deleteFileFromBucket = async (id) => {
 };
 
 const deleteCoverImage = async (req, res, next) => {
-  if (req.book.coverImageID !== undefined || req.url.includes('DELETE')) {
+  const { coverImageID } = req.book;
+  if (
+    (coverImageID !== undefined && req.body.coverImageID !== undefined) ||
+    (coverImageID !== undefined && req.url.includes('DELETE'))
+  ) {
     await deleteFileFromBucket(req.book.coverImageID);
   }
   return next();
