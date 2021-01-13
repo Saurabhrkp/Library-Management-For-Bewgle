@@ -44,7 +44,7 @@ exports.sendBookDetails = (req, res) => {
 exports.getBooks = async (req, res) => {
   const books = await Book.find({});
   let currentPage = req.query.page || 1,
-    booksPerPage = 10,
+    booksPerPage = 6,
     currentBooks = [];
   const indexOfLastBook = currentPage * booksPerPage;
   const indexOfFirstBook = indexOfLastBook - booksPerPage;
@@ -87,14 +87,5 @@ exports.postReturnBorrowedBook = async (req, res) => {
   const bookId = req.body.bookId;
   await Book.findByIdAndUpdate(bookId, { available: true });
   await req.user.returnBorrowedBook(bookId);
-  res.redirect(`/borrowed/${req.user.id}`);
-};
-
-exports.postReturnBothBorrowedBook = async (req, res) => {
-  const books = req.body.books;
-  async.each(books, (bookId, callback) => {
-    Book.findByIdAndUpdate(bookId, { available: true }).exec(callback);
-  });
-  await req.user.returnBothBorrowedBook(bookId);
   res.redirect(`/borrowed/${req.user.id}`);
 };
