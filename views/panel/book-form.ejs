@@ -31,7 +31,7 @@
           id="summary"
           class="form-control"
           cols="30"
-          rows="10"
+          rows="5"
         >
 <%- typeof book!= 'undefined' ? (typeof book.summary != 'undefined' ? book.summary : '') : '' %></textarea
         >
@@ -44,7 +44,7 @@
             name="isbn"
             class="form-control"
             id="isbn"
-            placeholder="Book ISBN is Automatically generated"
+            placeholder="Book ISBN"
             value="<%= typeof book!= 'undefined' ? (typeof book.isbn !=
           'undefined' ? book.isbn : '') : ''%>"
           />
