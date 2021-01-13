@@ -1,8 +1,8 @@
 <%- include('./components/navbar') %>
 <div class="text-center"><%- include('./components/messages') %></div>
-<div class="container">
+<div class="container-fluid">
   <div class="row justify-content-center mr-0 ml-2">
-    <% books.forEach(book => { %>
+    <% if(books.length>0){%><% books.forEach(book => { %>
     <div class="card m-3 p-0 shadow col-sm-10 col-md-5 col-lg-4">
       <a href="/<%= book._id %>" class="text-center"
         ><img
@@ -20,7 +20,15 @@
         <%- include('./components/borrow', {user, book}) %>
       </div>
     </div>
-    <% }) %>
+    <% }) %> <%}else{%>
+    <div class="container" style="height: 31rem">
+      <div class="row justify-content-center">
+        <div class="col">
+          <h1 class="text-center mt-5 p-5">No Books for Borrow</h1>
+        </div>
+      </div>
+    </div>
+    <%}%>
   </div>
   <% if(currentPage){%>
   <div class="row justify-content-center mr-0">
