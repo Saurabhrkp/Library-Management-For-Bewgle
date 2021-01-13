@@ -24,12 +24,6 @@ router.post(
   catchErrors(indexController.postReturnBorrowedBook)
 );
 
-router.post(
-  '/return-both',
-  userController.checkAuth,
-  catchErrors(indexController.postReturnBothBorrowedBook)
-);
-
 router.get('/files/:filename', sendFiles);
 
 router.post(
