@@ -21,9 +21,9 @@ const userSchema = new Schema({
   },
 });
 
-userSchema.methods.borrowBook = function (book) {
+userSchema.methods.borrowBook = function (bookId) {
   const borrowedBookIndex = this.borrowed.books.findIndex((cp) => {
-    return cp.bookId.toString() === book._id.toString();
+    return cp.bookId.toString() === bookId;
   });
   let date = new Date(); // Now
   date.setDate(date.getDate() + 30); // Set now + 30 days as the new date
@@ -33,7 +33,7 @@ userSchema.methods.borrowBook = function (book) {
     updatedBorrowedBooks[borrowedBookIndex].returnDate = date;
   } else {
     updatedBorrowedBooks.push({
-      bookId: book,
+      bookId: bookId,
       returnDate: date,
     });
   }
