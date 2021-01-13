@@ -31,6 +31,33 @@ Then, the book is added to my borrowed list
 And, the book is removed from the library
 
 Note:
-Each User has a borrowing limit of 2 books at any point of time 
+Each User has a borrowing limit of 2 books at any point of time
 
+---
+
+## Getting Started
+
+Install Node.js form [Official Site](https://nodejs.org/en/download/).
+
+Install [MongoDB](https://www.mongodb.com/) locally or Set [Atlas online](https://www.mongodb.com/cloud/atlas/signup). And put Database URI and Bucket name in `.env` file as example given in .`sample.env`
+
+Git clone or Download the Zip and unzip it.
+
+### Prerequisites
+
+Install Dependencies by running
+
+```bash
+npm install
+```
+
+## Running the programs
+
+Navigate to folder of program
+
+```bash
+cd folder/
+
+npm run start
+```
 ---
