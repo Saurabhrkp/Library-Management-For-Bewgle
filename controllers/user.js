@@ -143,11 +143,11 @@ exports.getUserByID = async (req, res, next, userId) => {
 };
 
 exports.updateUser = async (req, res) => {
-  const { flat, street, pincode, state } = req.body;
-  req.body.address = { flat, street, pincode, state };
+  const { flat, street } = req.body;
+  req.body.address = { flat, street };
   await User.findOneAndUpdate({ _id: req.user._id }, { $set: req.body });
   req.flash('success_msg', 'Your Account is updated');
-  res.redirect(`/user/${req.user.username}`);
+  res.redirect(`/user/${req.user._id}`);
 };
 
 exports.deleteUser = async (req, res) => {

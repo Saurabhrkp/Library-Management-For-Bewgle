@@ -25,6 +25,7 @@ exports.searchBook = async (req, res) => {
       PAGE_TITLE: `Result for: ${req.body.text}`,
       PAGE_PATH: 'index',
       books,
+      currentPage: false,
     });
   }
   req.flash('error_msg', `No Book with name: ${req.body.text}.`);
@@ -47,12 +48,13 @@ exports.getBooks = async (req, res) => {
     currentBooks = [];
   const indexOfLastBook = currentPage * booksPerPage;
   const indexOfFirstBook = indexOfLastBook - booksPerPage;
+  const totalPages = Math.ceil(books.length / booksPerPage);
   currentBooks = books.slice(indexOfFirstBook, indexOfLastBook);
   res.render('index', {
     PAGE_TITLE: 'All Books',
     PAGE_PATH: 'index',
     books: currentBooks,
-    totalPages: books.length,
+    totalPages,
     currentPage,
   });
 };
