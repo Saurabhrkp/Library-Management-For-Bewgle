@@ -6,7 +6,6 @@
         <th scope="col">#</th>
         <th scope="col">Thumbnail</th>
         <th scope="col">Title</th>
-        <th scope="col">Last Borrowed By</th>
         <th scope="col">Available</th>
         <th scope="col">Delete</th>
         <th scope="col">Update</th>
@@ -24,7 +23,6 @@
           />
         </td>
         <td><a href="/<%= book._id%>"><%= book.title %></a></td>
-        <td><%= book.usersBorrowed[book.usersBorrowed.length -1 ] %></td>
         <td><%= book.available ? 'Available':'Issued' %></td>
         <td>
           <%- include('../components/delete-modal', { pre : 'panel' , title :
