@@ -1,4 +1,5 @@
-<%if (user != null){%> <%if (book.available) {%>
+<%if (user != null){%> <%if (book.available && user.borrowed.books.length < 2)
+{%>
 <form action="/borrow" method="post">
   <input type="hidden" name="bookId" value="<%= book._id %>" />
   <button
@@ -8,14 +9,20 @@
     Borrow Book
   </button>
 </form>
-<%}else{%>
+<%}else if (!book.available){%>
 <button
   class="rounded-0 btn btn-block btn-lg disabled btn-outline-primary"
   type="submit"
 >
   Book Issued
 </button>
-<%}%> <%}else{%>
+<%} else {%>
+<button
+  class="rounded-0 btn btn-block btn-lg disabled btn-outline-primary"
+  type="submit"
+>
+  Borrow Limit exceed</button
+><% } %> <%}else{%>
 <a
   class="btn rounded-0 btn-block btn-lg btn-outline-primary"
   href="/user/signin"
