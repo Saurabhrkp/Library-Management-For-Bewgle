@@ -14,7 +14,8 @@
     <div class="m-0 col-sm-10 col-md-8 col-lg-8 mt-3">
       <a href="/<%= book.bookId._id%>"><h3><%= book.bookId.title %></h3></a>
       <p><%= book.bookId.description %></p>
-      <p class="mb-0 d-inline-block">By <%= book.bookId.author %></p>
+      <p>By <%= book.bookId.author %></p>
+      <p>Return Book By <%= book.returnDate %></p>
       <h4><%= book.bookId.isbn %></h4>
       <form action="/return/<%= book.bookId._id %>" method="POST">
         <input type="hidden" value="<%= book.bookId._id %>" name="bookId" />
