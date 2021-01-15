@@ -61,3 +61,9 @@ cd folder/
 npm run start
 ```
 ---
+
+## Model-View-Controller(MVC) architecture
+
+I have use Model-View-Controller architecture for the above. Here I have model of users and books. Views folder has all view pages using EJS templating engine. Every routes in app has Controller for handling it logics.
+
+---
