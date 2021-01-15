@@ -75,10 +75,6 @@ exports.getBorrowed = async (req, res) => {
 
 exports.postBorrowed = async (req, res) => {
   const bookId = req.body.bookId;
-  await Book.findByIdAndUpdate(bookId, {
-    available: false,
-    $push: { usersBorrowed: req.user.id },
-  });
   req.user.borrowBook(bookId);
   res.redirect(`/borrowed/${req.user.id}`);
 };

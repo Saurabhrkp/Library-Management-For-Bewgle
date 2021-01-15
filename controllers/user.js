@@ -133,9 +133,6 @@ exports.checkAuth = (req, res, next) => {
 exports.getUserByID = async (req, res, next, userId) => {
   try {
     req.profile = await User.findById(userId);
-    req.profile.borrowedBookList = await Book.find({
-      usersBorrowed: { $in: [req.profile._id] },
-    }).select('-usersBorrowed');
     next();
   } catch (error) {
     next(error);
@@ -151,16 +148,6 @@ exports.updateUser = async (req, res) => {
 };
 
 exports.deleteUser = async (req, res) => {
-  await async.parallel([
-    (callback) => {
-      User.findByIdAndDelete(req.profile._id).exec(callback);
-    },
-    (callback) => {
-      Book.updateMany(
-        { usersBorrowed: { $in: [req.profile._id] } },
-        { $pull: { usersBorrowed: req.profile._id } }
-      ).exec(callback);
-    },
-  ]);
+  await User.findByIdAndDelete(req.profile._id);
   res.redirect('/user/signout');
 };
